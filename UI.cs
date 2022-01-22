@@ -40,18 +40,16 @@ namespace DSPMergeStorage
             scrollArea.transform.localPosition = new Vector3(25, -570, 0);
             scrollArea.GetComponent<RectTransform>().sizeDelta = new Vector2(-120, -120);
 
-
-
             GameObject storage = GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/storage");
             GameObject viewport = scrollArea.transform.Find("viewport").gameObject;
             GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/storage").transform.SetParent(viewport.transform);
             scrollArea.GetComponent<ScrollRect>().content = storage.GetComponent<RectTransform>();
             
-            
             Destroy(viewport.transform.Find("content").gameObject);////////////////////////
             
-            
-            viewport.GetComponent<Image>().enabled = true;
+            viewport.GetComponent<Image>().enabled = false;
+            viewport.GetComponent<Mask>().enabled = false;
+            //viewport.GetComponent<Image>().enabled = true;
 
             viewport.transform.localPosition = new Vector3(-285, 510, 0);
             viewport.GetComponent<RectTransform>().sizeDelta = new Vector2(15, 0);
@@ -59,18 +57,6 @@ namespace DSPMergeStorage
             GameObject vbar = GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/scrollArea/v-bar");
             vbar.transform.localPosition = new Vector3(235, 510, 0);
             vbar.GetComponent<RectTransform>().sizeDelta = new Vector2(15, 0);
-
-
-            //ref Material iconImageMat = ref AccessTools.FieldRefAccess<UIStorageGrid, Material>(UIRoot.instance.uiGame.storageWindow.storageUI, "iconImageMat");
-            //ref Material bgImageMat = ref AccessTools.FieldRefAccess<UIStorageGrid, Material>(UIRoot.instance.uiGame.storageWindow.storageUI, "bgImageMat");
-
-
-            //LogManager.Logger.LogInfo($"iconImageMat.renderQueue : {iconImageMat.renderQueue}");
-            //LogManager.Logger.LogInfo($"bgImageMat.renderQueue : {bgImageMat.renderQueue}");
-
-            //iconImageMat.renderQueue = 4000;
-            //bgImageMat.renderQueue = 4000;
-
 
 
         }

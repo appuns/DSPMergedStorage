@@ -35,8 +35,8 @@ namespace DSPMergeStorage
             LogManager.Logger = Logger;
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
-            UI.LoadIcon();
-            UI.MergeButtonCreate();
+            //UI.LoadIcon();
+            //UI.MergeButtonCreate();
             UI.ScrollAreaCreate();
             //GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/").gameObject.AddListener(new UnityAction(OnCargoButtonClick));
 

@@ -39,12 +39,6 @@ namespace DSPMergeStorage
         public static void Merge()
         {
              UIStorageWindow storageWindow = UIRoot.instance.uiGame.storageWindow;
-            //ref bool eventLock = ref AccessTools.FieldRefAccess<UIStorageWindow, bool>(storageWindow, "eventLock");
-
-            //Text[] numTexts = AccessTools.FieldRefAccess<UIStorageGrid, Text[]>(storageWindow.storageUI, "numTexts");
-            // LogManager.Logger.LogInfo($"numTexts  : {numTexts.Length}");
-            // int[] numbers = AccessTools.FieldRefAccess<UIStorageGrid, int[]>(storageWindow.storageUI, "numbers ");
-            // LogManager.Logger.LogInfo($"numbers   : {numbers.Length}");
 
             storageWindow.eventLock = true;
 
@@ -78,23 +72,17 @@ namespace DSPMergeStorage
             {
                 Array.Copy(storagePool[cID[i]].grids, 0, storagePool[cID[0]].grids, originSize * i, originSize);
             }
-            storagePool[cID[0]].Sort();
+            //storagePool[cID[0]].Sort();
             storagePool[cID[0]].CutNext();
             //結合したものをストレージにアタッチ
             for (i = 1; i < STRCount; i++)
             {
                 //LogManager.Logger.LogInfo("mergedSTR.id : " + newSTRs[0].id);
                 storageWindow.factory.entityPool[entityId[i]].storageId = storagePool[cID[0]].id; //すべてにbottomを割り当て
-                //if (cID[i] == selectedID)
-                //{
-                //    storageWindow.storageId = selectedID;
-                //}
             }
-            //storageWindow.storageId = 0;
-            //storageWindow.storageId = cID[0];
-            //storageWindow.storageUI.OnStorageDataChanged();
             storageWindow.eventLock = false;
-            LogManager.Logger.LogInfo("------------------ --------------------------------------merged");
+            //LogManager.Logger.LogInfo("------------------ --------------------------------------merged");
+            storageWindow.storageUI.OnStorageContentChanged();
 
             merged = true;
         }
@@ -125,7 +113,7 @@ namespace DSPMergeStorage
         {
             var storagePool = GameMain.data.localPlanet.factory.factoryStorage.storagePool;
             //
-            storagePool[cID[0]].Sort();
+            //storagePool[cID[0]].Sort();
             for (int i = 1; i < STRCount; i++)
             {
                 Array.Copy(storagePool[cID[0]].grids, originSize * i, storagePool[cID[i]].grids, 0, originSize);
@@ -138,12 +126,6 @@ namespace DSPMergeStorage
             merged = false;
         }
 
-
-        //public static void SetSignPool(StorageComponent targetComponent)
-        //{
-        //    targetComponent.SetSkimSign(GameMain.data.mainPlayer.factory.entitySignPool);
-        //    GameMain.data.mainPlayer.factory.entityAnimPool[targetComponent.entityId].state = ((targetComponent.searchStart != -1) ? 1U : 0U);
-        //}
 
     }
 }
