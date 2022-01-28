@@ -29,20 +29,15 @@ namespace DSPMergeStorage
         public static int maxSize = 480;
         public static int maxRow = 15;
 
+        public static bool enableMerge = true;
 
         public void Start()
         {
             LogManager.Logger = Logger;
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
-
+            UI.LoadIcon();
+            UI.MergeButtonCreate();
             UI.ScrollAreaCreate();
-
-
         }
-
-
     }
-
-
-
 }
