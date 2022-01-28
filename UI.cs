@@ -101,19 +101,19 @@ namespace DSPMergeStorage
             if (Main.enableMerge)
             {
                 //LogManager.Logger.LogInfo("--------------------------------------------------------UIWindowDrag_OnDisable_Patch : " + __instance.gameObject);
-                if (MergedComponent.merged)
-                {
-                    MergedComponent.Split();
-                    GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/bans-bar").SetActive(true);
-                }
-            }
-            else
-            {
-                if (UIRoot.instance.uiGame.storageWindow.storageUI.active)
-                {
-                    MergedComponent.Merge(UIRoot.instance.uiGame.storageWindow.storageUI.storage.bottom);
-                }
-            }
+            //    if (MergedComponent.merged)
+            //    {
+            //        MergedComponent.Split();
+            //        GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/bans-bar").SetActive(true);
+            //    }
+            //}
+            //else
+            //{
+            //    if (UIRoot.instance.uiGame.storageWindow.storageUI.active)
+            //    {
+            //        MergedComponent.Merge(UIRoot.instance.uiGame.storageWindow.storageUI.storage.bottom);
+            //    }
+            //}
             Main.enableMerge = !Main.enableMerge;
             UI.mergeButton.GetComponent<UIButton>().highlighted = Main.enableMerge;
 

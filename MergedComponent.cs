@@ -22,9 +22,9 @@ namespace DSPMergeStorage
 {
     public class MergedComponent : MonoBehaviour
     {
-        public static StorageComponent mergedSTR = new StorageComponent(0);  　
+        //public static StorageComponent mergedSTR = new StorageComponent(0);  　
         //public static StorageComponent displaySTR = new StorageComponent(0); 
-        public static StorageComponent backupSTR = new StorageComponent(0);　　
+        //public static StorageComponent backupSTR = new StorageComponent(0);　　
         //public static StorageComponent backupSTR = new StorageComponent(40);
         public static StorageComponent[] newSTRs = new StorageComponent[10];
         public static int[] cID = new int[10];
