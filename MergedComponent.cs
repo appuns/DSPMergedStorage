@@ -36,34 +36,36 @@ namespace DSPMergeStorage
         public static int originSize;
         public static int originBans;
 
-        public static void Merge()
+        public static void Merge(int bottomId)
         {
              UIStorageWindow storageWindow = UIRoot.instance.uiGame.storageWindow;
 
-            storageWindow.eventLock = true;
+            //storageWindow.eventLock = true;
 
             int storageLevel = GameMain.data.history.storageLevel;
             //storageComponents = new StorageComponent[storageLevel];
-            var storagePool = storageWindow.factoryStorage.storagePool;
+            var storagePool = GameMain.data.localPlanet.factory.factoryStorage.storagePool;
             //int bansSum = 0;
 
             //元のコンポーネントIDの配列を作成
-            int selectedID = storagePool[storageWindow.storageId].id;
+            LogManager.Logger.LogInfo($"bottomId : {bottomId} ");
 
-            cID[0] = storagePool[storageWindow.storageId].bottom;
-            entityId[0] = storagePool[storageWindow.storageId].entityId;
-            originSize = storagePool[storageWindow.storageId].size;
+            int selectedID = storagePool[bottomId].id;
+
+            cID[0] = storagePool[bottomId].bottom;
+            entityId[0] = storagePool[bottomId].entityId;
+            originSize = storagePool[bottomId].size;
             int i = 1;
             while (storagePool[cID[i-1]].next != 0)
             {
-                //LogManager.Logger.LogInfo($"storagePool[cID[i-1]].next : {storagePool[cID[i - 1]].next} ");
+                LogManager.Logger.LogInfo($"storagePool[cID[i-1]].next : {storagePool[cID[i - 1]].next} ");
                 cID[i] = storagePool[cID[i - 1]].next;
                 entityId[i] = storagePool[cID[i]].entityId;
                 i++;
             }
             STRCount = i;
 
-            //LogManager.Logger.LogInfo("STRCount  : " + STRCount);
+            LogManager.Logger.LogInfo("STRCount  : " + STRCount);
 
             //配列をコピーしてbottomに結合
             storagePool[cID[0]].SetSize(originSize * STRCount);
@@ -71,17 +73,19 @@ namespace DSPMergeStorage
             for (i = 1; i < STRCount; i++)
             {
                 Array.Copy(storagePool[cID[i]].grids, 0, storagePool[cID[0]].grids, originSize * i, originSize);
+                LogManager.Logger.LogInfo("Array.Copy  : " + storagePool[cID[0]].grids.Length);
             }
             //storagePool[cID[0]].Sort();
             storagePool[cID[0]].CutNext();
+            LogManager.Logger.LogInfo("CutNext");
             //結合したものをストレージにアタッチ
             for (i = 1; i < STRCount; i++)
             {
-                //LogManager.Logger.LogInfo("mergedSTR.id : " + newSTRs[0].id);
-                storageWindow.factory.entityPool[entityId[i]].storageId = storagePool[cID[0]].id; //すべてにbottomを割り当て
+                LogManager.Logger.LogInfo(GameMain.data.localPlanet.factory.entityPool[entityId[i]].storageId + "  = " + storagePool[cID[0]].id);
+                GameMain.data.localPlanet.factory.entityPool[entityId[i]].storageId = storagePool[cID[0]].id; //すべてにbottomを割り当て
             }
-            storageWindow.eventLock = false;
-            //LogManager.Logger.LogInfo("------------------ --------------------------------------merged");
+            //storageWindow.eventLock = false;
+            LogManager.Logger.LogInfo("------------------ --------------------------------------merged");
             storageWindow.storageUI.OnStorageContentChanged();
 
             merged = true;

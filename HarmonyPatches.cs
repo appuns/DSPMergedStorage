@@ -16,7 +16,6 @@ using HarmonyLib;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
-using static UnityEngine.GUILayout;
 using UnityEngine.Rendering;
 using Steamworks;
 using rail;
@@ -59,36 +58,23 @@ namespace DSPMergeStorage
                 //LogManager.Logger.LogInfo($"StorageId0 {StorageId0}");
                 if (StorageId0 != 0)
                 {
-                    if (__instance.player.factory.factoryStorage.storagePool[StorageId0].previous != 0)
+                    int bottomId = 0;
+                    if (__instance.player.factory.factoryStorage.storagePool[StorageId0].previous == 0)
                     {
-                        int bottomId = __instance.player.factory.factoryStorage.storagePool[StorageId0].bottom;
-                        //int newObjId = __instance.player.factory.factoryStorage.storagePool[bottomId].entityId;
-
-                        //LogManager.Logger.LogInfo($"newID {newObjId}");
-
+                        bottomId = StorageId0;
+                    }
+                    else
+                    {
+                        bottomId = __instance.player.factory.factoryStorage.storagePool[StorageId0].bottom;
                         objId = __instance.player.factory.factoryStorage.storagePool[bottomId].entityId;
-
-
-                        ref bool eventLock = ref AccessTools.FieldRefAccess<UIStorageWindow, bool>(UIRoot.instance.uiGame.storageWindow, "eventLock");
-                        eventLock = true;
-
-                        //LogManager.Logger.LogInfo("//////////////////////////////Inspectee Changed     eventLock : " + eventLock );
-
-                        if (MergedComponent.merged)
-                        {
-                            MergedComponent.Split();
-                            //UI.mergeButton.transform.Find("icon").GetComponent<Image>().sprite = UI.mergeIcon;
-                            //UI.mergeButton.GetComponent<UIButton>().tips.tipTitle = "Merge Storages".Translate();
-                            //UI.mergeButton.GetComponent<UIButton>().tips.tipText = "Click to Merge Storages.".Translate();
-                            //GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/bans-bar").SetActive(true);
-                            //MergedComponent.merged = false;
-                            ////LogManager.Logger.LogInfo("--------------------------------------------------------splited in SetInspectee");
-                        }else
-                        {
-                            MergedComponent.Merge();
-
-                        }
-                        eventLock = false;
+                    }
+                    if (MergedComponent.merged)
+                    {
+                        MergedComponent.Split();
+                    }
+                    else
+                    {
+                        MergedComponent.Merge(bottomId);
                     }
                 }
             }
@@ -97,7 +83,6 @@ namespace DSPMergeStorage
 
 
         [HarmonyPostfix, HarmonyPatch(typeof(VFPreload), "PreloadThread")]
-        //[HarmonyPatch(typeof(UIStorageGrid), "_OnCreate")]
 
         public static void VFPreload_PreloadThread_Patch()
 
@@ -125,6 +110,7 @@ namespace DSPMergeStorage
             float width = __instance.windowTrans.sizeDelta.x; // + 200;
             float height = (float)(rowCount * 50 + 130);
             __instance.windowTrans.sizeDelta = new Vector2(608, height); // 588,630 
+
         }
 
         //ストレージウインドウを閉じたら分割
