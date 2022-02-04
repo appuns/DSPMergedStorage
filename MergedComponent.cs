@@ -22,10 +22,6 @@ namespace DSPMergeStorage
 {
     public class MergedComponent : MonoBehaviour
     {
-        //public static StorageComponent mergedSTR = new StorageComponent(0);  　
-        //public static StorageComponent displaySTR = new StorageComponent(0); 
-        //public static StorageComponent backupSTR = new StorageComponent(0);　　
-        //public static StorageComponent backupSTR = new StorageComponent(40);
         public static StorageComponent[] newSTRs = new StorageComponent[10];
         public static int[] cID = new int[10];
         public static int[] entityId = new int[10];
@@ -76,16 +72,9 @@ namespace DSPMergeStorage
             }
             //storagePool[cID[0]].Sort();
             storagePool[cID[0]].CutNext();
-            //LogManager.Logger.LogInfo("CutNext");
-            //結合したものをストレージにアタッチ
-            for (i = 1; i < STRCount; i++)
-            {
-                //LogManager.Logger.LogInfo(GameMain.data.localPlanet.factory.entityPool[entityId[i]].storageId + "  = " + storagePool[cID[0]].id);
-                GameMain.data.localPlanet.factory.entityPool[entityId[i]].storageId = storagePool[cID[0]].id; //すべてにbottomを割り当て
-            }
             //LogManager.Logger.LogInfo("------------------ --------------------------------------merged");
             storageWindow.storageUI.OnStorageContentChanged();
-            GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/bans-bar").SetActive(false);
+            UIRoot.instance.uiGame.storageWindow.bansSlider.gameObject.SetActive(false);
             GameObject scrollArea = GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/scrollArea");
             scrollArea.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
@@ -99,23 +88,26 @@ namespace DSPMergeStorage
 
             var storagePool = GameMain.data.localPlanet.factory.factoryStorage.storagePool;
 
-            storagePool[cID[0]].Sort();
+            //storagePool[cID[0]].Sort();
+
             for (int i = 1; i < STRCount; i++)
             {
                 Array.Copy(storagePool[cID[0]].grids, originSize * i, storagePool[cID[i]].grids, 0, originSize);
-                GameMain.data.mainPlayer.factory.entityPool[entityId[i]].storageId = cID[i];
+                //サインを読み直す
+                storagePool[cID[i]].entityId = entityId[i];
+                storagePool[cID[i]].searchStart = 0;
             }
+
             storagePool[cID[0]].SetSize(originSize);
             storagePool[cID[0]].next = cID[1];
-            UIRoot.instance.uiGame.storageWindow.storageUI.OnStorageContentChanged();
+            storagePool[cID[0]].searchStart = 0;
             Array.Clear(cID, 0, cID.Length);
             Array.Clear(entityId, 0, entityId.Length);
-            GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/bans-bar").SetActive(true);
+            UIRoot.instance.uiGame.storageWindow.bansSlider.gameObject.SetActive(true);
 
             merged = false;
 
         }
-
 
 
     }

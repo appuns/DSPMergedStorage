@@ -1,0 +1,9 @@
+{
+  "name": "DSPMergeStorage",
+  "version_number": "0.1.0",
+  "website_url": "https://github.com/appuns/DSPMergeStorage",
+  "description": "Allows you to access multi-layer storage as one storage. This don't affect achievements or milestones. 多層ストレージを一つのストレージとして扱うことができます。実績やマイルストーンには影響しません。",
+  "dependencies": [
+    "xiaoye97-BepInEx-5.4.17"
+  ]
+}

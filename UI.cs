@@ -39,9 +39,9 @@ namespace DSPMergeStorage
             GameObject viewport = scrollArea.transform.Find("viewport").gameObject;
             GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/storage").transform.SetParent(viewport.transform);
             scrollArea.GetComponent<ScrollRect>().content = storage.GetComponent<RectTransform>();
-            
+
             Destroy(viewport.transform.Find("content").gameObject);////////////////////////
-            
+
             viewport.GetComponent<Image>().enabled = false;
             viewport.GetComponent<Mask>().enabled = false;
 
@@ -98,27 +98,8 @@ namespace DSPMergeStorage
         //ボタンイベント
         public static void onClick()
         {
-            if (Main.enableMerge)
-            {
-                //LogManager.Logger.LogInfo("--------------------------------------------------------UIWindowDrag_OnDisable_Patch : " + __instance.gameObject);
-            //    if (MergedComponent.merged)
-            //    {
-            //        MergedComponent.Split();
-            //        GameObject.Find("UI Root/Overlay Canvas/In Game/Windows/Storage Window/bans-bar").SetActive(true);
-            //    }
-            //}
-            //else
-            //{
-            //    if (UIRoot.instance.uiGame.storageWindow.storageUI.active)
-            //    {
-            //        MergedComponent.Merge(UIRoot.instance.uiGame.storageWindow.storageUI.storage.bottom);
-            //    }
-            //}
             Main.enableMerge = !Main.enableMerge;
             UI.mergeButton.GetComponent<UIButton>().highlighted = Main.enableMerge;
-
         }
-
-
     }
 }
